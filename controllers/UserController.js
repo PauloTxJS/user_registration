@@ -7,7 +7,8 @@ class UserController {
         this.tableEl = document.getElementById(tableId);
 
         this.onSubmit();
-        this.onEdit();    
+        this.onEdit();
+        this.selectAll();    
 
     }
 
@@ -111,6 +112,8 @@ class UserController {
                 (content) => {
 
                     values.photo = content;
+
+                    this.insert(values);
 
                     this.addLine(values);
 
@@ -224,9 +227,51 @@ class UserController {
 
     }
 
+    getUsersStorage() {
+
+        let users = [];
+
+        if (localStorage.getItem("users")) {
+
+            users = JSON.parse(localStorage.getItem("users"));
+
+        }
+
+        return users;
+
+    }
+
+    selectAll() {
+
+        let users = this.getUsersStorage();
+
+        users.forEach(dataUser => {
+
+            let user = new User();
+
+            user.loadFromJSON(dataUser);
+
+            this.addLine(user);
+
+        });
+
+    }
+
+    insert(data) {
+
+        let users = this.getUsersStorage();     
+
+        users.push(data);
+
+        //sessionStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("users", JSON.stringify(users));
+
+    }
+
     addLine(dataUser) {
 
         let tr = document.createElement('tr');
+
         tr.dataset.user = JSON.stringify(dataUser);
 
         tr.innerHTML = `
