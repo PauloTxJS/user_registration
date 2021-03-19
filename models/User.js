@@ -127,7 +127,7 @@ class User {
         return usersID;
 
     }
-    //Deu Problema nessa função aqui... coloquei o nome errado nela. 
+     
     save() {
 
         let users = User.getUsersStorage();
